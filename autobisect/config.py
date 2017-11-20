@@ -28,7 +28,7 @@ class BisectionConfig(object):
         :param config_file: A path to custom configuration file
         """
 
-        if not config_file:
+        if config_file is None:
             config_file = self.create_default_config()
 
         if not os.path.isfile(config_file):
