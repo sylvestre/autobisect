@@ -7,6 +7,8 @@ import shutil
 import sqlite3
 import time
 
+from .config import BisectionConfig
+
 log = logging.getLogger('browser-bisect')
 Build = namedtuple('Build', ('path', 'stats'))
 
@@ -48,9 +50,8 @@ class BuildManager(object):
     A class for managing downloaded builds
     """
     def __init__(self, config, build_string):
-        self.config = config
         self.build_prefix = build_string
-
+        self.config = BisectionConfig(config)
         self.build_dir = os.path.join(self.config.store_path, 'builds')
         if not os.path.isdir(self.build_dir):
             os.makedirs(self.build_dir)

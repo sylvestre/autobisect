@@ -13,7 +13,6 @@ from fuzzfetch import BuildFlags, Fetcher, FetcherException
 from .evaluator.browser import BrowserBisector
 from .build_manager import BuildManager
 from .builds import BuildRange
-from .config import BisectionConfig
 
 log = logging.getLogger('bisect')
 
@@ -37,9 +36,7 @@ class Bisector(object):
         self.build_string = "m-%s-%s%s" % (self.branch[0], platform.system().lower(), self.build_flags.build_string())
         self.start = Fetcher(self.target, self.branch, args.start, self.build_flags)
         self.end = Fetcher(self.target, self.branch, args.end, self.build_flags)
-
-        self.config = BisectionConfig(args.config)
-        self.build_manager = BuildManager(self.config, self.build_string)
+        self.build_manager = BuildManager(args.config, self.build_string)
 
         if self.target == 'firefox':
             self.evaluator = BrowserBisector(args)
