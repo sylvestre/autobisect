@@ -38,8 +38,14 @@ class DatabaseManager(object):
         Closes the sqlite3 database
         """
         if self.con:
-            self.con.commit()
-            self.con.close()
+            try:
+                self.con.commit()
+            except sqlite3.ProgrammingError as err:
+                log.debug('sqlite3 error: %s', err)
+            try:
+                self.con.close()
+            except sqlite3.ProgrammingError as err:
+                log.debug('sqlite3 error: %s', err)
 
     def __del__(self):
         self.close()
